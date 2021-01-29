@@ -28,7 +28,14 @@ def M2d(R, Re):
         out[i] = 2*np.pi*quad(lambda r: r*Sigma(r, Re), 0., R[i])[0]
     return out
 
-gridname = os.environ.get('BHWLDIR') + '/wl_profiles/deV_m2d_grid.hdf5'
+def lenspot(R, Re):
+    Rs = np.atleast_1d(R)
+    out = 0.*Rs
+    for i in range(len(Rs)):
+        out[i] = 2.*np.pi*quad(lambda x: Sigma(x, Re)*x, 0., R)[0]
+    return out
+
+gridname = os.getcwd() + '/deV_m2d_grid.hdf5'
 
 if not os.path.isfile(gridname):
     print('calculating grid of enclosed projected masses...')

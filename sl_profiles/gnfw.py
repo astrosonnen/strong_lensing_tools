@@ -7,7 +7,7 @@ import ndinterp
 
 #calculates density profiles, projected mass densities, projected enclosed masses, 3d enclosed masses for generalized-NFW profiles.
 
-grid_dir = os.environ.get('BHWLDIR') + '/wl_profiles/'
+cwd = os.getcwd()
 
 def rho(r, rs, beta):
     return 1./r**beta/(1. + r/rs)**(3.-beta) * rs**(beta-3.)
@@ -36,7 +36,15 @@ def M3d(r, rs, beta):
         out[i] = 4*np.pi*quad(lambda x: rho(x, rs, beta)*x**2, 0., r[i])[0]
     return out
 
-gridname = grid_dir+'/gNFW_grids.hdf5'
+def lenspot(R, rs, beta, s_cr=1., R2rad=1.):
+    Rs = np.atleast_1d(R)
+    out = 0.*Rs
+    for i in range(len(Rs)):
+        R = Rs[i]
+        out[i] = 2.*quad(lambda x: Sigma(x, rs, beta)*x*np.log(R/x), 0., R)[0]
+    return out / s_cr * R2rad**2
+
+gridname = cwd+'/gNFW_grids.hdf5'
 
 # grid interpolation parameters
 bgrid_min = 0.2
@@ -61,6 +69,7 @@ if not os.path.isfile(gridname):
     Sigma_grid = np.zeros((Nb, Nr))
     M2d_grid = np.zeros((Nb, Nr))
     M3d_grid = np.zeros((Nb, Nr))
+    lenspot_grid = np.zeros((Nb, Nr))
     
     for i in range(Nb):
         print('inner slope %4.2f'%beta_grid[i])
@@ -68,6 +77,7 @@ if not os.path.isfile(gridname):
             Sigma_grid[i,j] = Sigma(R_grid[j], 1., beta_grid[i])
             M2d_grid[i,j] = M2d(R_grid[j], 1., beta_grid[i])
             M3d_grid[i,j] = M3d(R_grid[j], 1., beta_grid[i])
+            lenspot_grid[i, j] = lenspot(R_grid[j], 1., beta_grid[i])
 
     grid_file = h5py.File(gridname, 'w')
     grid_file.create_dataset('R_grid', data=R_grid)
@@ -76,6 +86,7 @@ if not os.path.isfile(gridname):
     grid_file.create_dataset('Sigma_grid', data=Sigma_grid)
     grid_file.create_dataset('M2d_grid', data=M2d_grid)
     grid_file.create_dataset('M3d_grid', data=M3d_grid)
+    grid_file.create_dataset('lenspot_grid', data=lenspot_grid)
 
     grid_file.close()
 
@@ -95,6 +106,7 @@ else:
 Sigma_interp = ndinterp.ndInterp(axes, Sigma_grid*R, order=3)
 M2d_interp = ndinterp.ndInterp(axes, M2d_grid*R**(B-3.), order=3)
 M3d_interp = ndinterp.ndInterp(axes, M3d_grid*R**(B-3.), order=3)
+lenspot_interp = ndinterp.ndInterp(axes, lenspot_grid, order=3)
 
 def fast_M2d(R, rs, beta):
     R = np.atleast_1d(R)
@@ -102,8 +114,8 @@ def fast_M2d(R, rs, beta):
     beta = np.atleast_1d(beta)
     length = max(len(beta), len(R), len(rs))
     sample = np.array([beta*np.ones(length), R/rs*np.ones(length)]).reshape((2, length)).T
-    M2d = M2d_interp.eval(sample)*(R/rs)**(3.-beta)
-    return M2d
+    M2d_here = M2d_interp.eval(sample)*(R/rs)**(3.-beta)
+    return M2d_here
 
 def fast_M3d(r, rs, beta):
     r = np.atleast_1d(r)
@@ -111,8 +123,8 @@ def fast_M3d(r, rs, beta):
     beta = np.atleast_1d(beta)
     length = max(len(beta), len(r), len(rs))
     sample = np.array([beta*np.ones(length), r/rs*np.ones(length)]).reshape((2, length)).T
-    M3d = M3d_interp.eval(sample)*(r/rs)**(3.-beta)
-    return M3d
+    M3d_here = M3d_interp.eval(sample)*(r/rs)**(3.-beta)
+    return M3d_here
 
 def fast_Sigma(R, rs, beta):
     R = np.atleast_1d(R)
@@ -120,6 +132,15 @@ def fast_Sigma(R, rs, beta):
     beta = np.atleast_1d(beta)
     length = max(len(beta), len(R), len(rs))
     sample = np.array([beta*np.ones(length), R/rs*np.ones(length)]).reshape((2, length)).T
-    Sigma = Sigma_interp.eval(sample)/(R/rs)/rs**2
-    return Sigma
+    Sigma_here = Sigma_interp.eval(sample)/(R/rs)/rs**2
+    return Sigma_here
+
+def fast_lenspot(R, rs, beta, s_cr=1., R2rad=1.):
+    R = np.atleast_1d(R)
+    rs = np.atleast_1d(rs)
+    beta = np.atleast_1d(beta)
+    length = max(len(beta), len(R), len(rs))
+    sample = np.array([beta*np.ones(length), R/rs*np.ones(length)]).reshape((2, length)).T
+    lenspot_here = lenspot_interp.eval(sample)*rs**2
+    return lenspot_here
 
