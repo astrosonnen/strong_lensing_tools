@@ -100,6 +100,7 @@ else:
     Sigma_grid = grid_file['Sigma_grid'][()]
     M2d_grid = grid_file['M2d_grid'][()]
     M3d_grid = grid_file['M3d_grid'][()]
+    lenspot_grid = grid_file['lenspot_grid'][()]
 
     grid_file.close()
 
@@ -141,6 +142,6 @@ def fast_lenspot(R, rs, beta, s_cr=1., R2rad=1.):
     beta = np.atleast_1d(beta)
     length = max(len(beta), len(R), len(rs))
     sample = np.array([beta*np.ones(length), R/rs*np.ones(length)]).reshape((2, length)).T
-    lenspot_here = lenspot_interp.eval(sample)*rs**2
+    lenspot_here = lenspot_interp.eval(sample)*rs**2 / s_cr * R2rad**2
     return lenspot_here
 

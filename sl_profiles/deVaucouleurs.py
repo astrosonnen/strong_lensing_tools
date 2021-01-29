@@ -37,7 +37,7 @@ def lenspot(R, Re, s_cr=1., R2rad=1.):
         out[i] = 2.*np.pi*quad(lambda x: Sigma(x, Re)*x*np.log(R/x), 0., R)[0]
     return out / s_cr * R2rad**2
 
-gridname = cwd + '/deV_m2d_grid.hdf5'
+gridname = cwd + '/deV_2dgrids.hdf5'
 
 if not os.path.isfile(gridname):
     print('calculating grid of enclosed projected masses...')
@@ -52,6 +52,7 @@ if not os.path.isfile(gridname):
 
     grid_file = h5py.File(gridname, 'w')
     grid_file.create_dataset('M2d_grid', data=M2d_grid)
+    grid_file.create_dataset('lenspot_grid', data=lenspot_grid)
     grid_file.create_dataset('R_grid', data=rr)
     grid_file.close()
 
@@ -63,8 +64,13 @@ else:
 
 deV_M2d_spline = splrep(np.array([0.] + list(rr) + [1e10]), np.array([0.] + list(M2d_grid) + [1.]))
 
+deV_lenspot_spline = splrep(rr, lenspot_grid)
+
 def fast_M2d(x):
     return splev(x, deV_M2d_spline)
+
+def fast_lenspot(x, Re, s_cr=1., R2rad=1.):
+    return splev(x/Re, deV_lenspot_spline) * Re**2 / s_cr * R2rad**2
 
 def rho(r, reff): # 3D density from spherical deprojection
     rhere = np.atleast_1d(r)
