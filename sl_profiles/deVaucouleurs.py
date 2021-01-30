@@ -70,7 +70,7 @@ def fast_M2d(x):
     return splev(x, deV_M2d_spline)
 
 def fast_lenspot(x, Re, s_cr=1., R2rad=1.):
-    return splev(x/Re, deV_lenspot_spline) * Re**2 / s_cr * R2rad**2
+    return splev(x/Re, deV_lenspot_spline) / s_cr * R2rad**2
 
 def rho(r, reff): # 3D density from spherical deprojection
     rhere = np.atleast_1d(r)
