@@ -34,7 +34,7 @@ def lenspot(R, Re, s_cr=1., R2rad=1.):
     Rs = np.atleast_1d(R)
     out = 0.*Rs
     for i in range(len(Rs)):
-        out[i] = 2.*np.pi*quad(lambda x: Sigma(x, Re)*x*np.log(R/x), 0., R)[0]
+        out[i] = 2.*quad(lambda x: Sigma(x, Re)*x*np.log(R/x), 0., R)[0]
     return out / s_cr * R2rad**2
 
 gridname = cwd + '/deV_2dgrids.hdf5'
