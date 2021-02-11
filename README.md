@@ -4,3 +4,9 @@ This repository contains scripts that can be used for simple simulation of stron
 
 To use, add this directory to your `PYTHONPATH` environment variable.
 
+## Contributors
+
+Alessandro Sonnenfeld
+Marius Cautun
+Qing Zhou
+
