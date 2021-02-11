@@ -6,7 +6,7 @@ from scipy.interpolate import splrep, splev, splint
 import h5py
 
 
-cwd = os.getcwd()
+thisdir = os.path.dirname(os.path.abspath(__file__))
 
 ndeV = 4.
 
@@ -33,7 +33,7 @@ def lenspot(R, Re, s_cr=1., R2rad=1.):
         out[i] = 2.*quad(lambda x: Sigma(x, Re)*x*np.log(R/x), 0., R)[0]
     return out / s_cr * R2rad**2
 
-gridname = cwd + '/deV_2dgrids.hdf5'
+gridname = thisdir + '/deV_2dgrids.hdf5'
 
 if not os.path.isfile(gridname):
     print('calculating grid of enclosed projected masses...')
@@ -76,7 +76,7 @@ def rho(r, reff): # 3D density from spherical deprojection
         out[i] = -1./np.pi*quad(lambda R: deriv(R)/(R**2 - rhere[i]**2)**0.5, rhere[i], np.inf)[0]
     return out
 
-grid3dfilename = cwd + '/deV_3dgrids.hdf5'
+grid3dfilename = thisdir + '/deV_3dgrids.hdf5'
 
 if not os.path.isfile(grid3dfilename):
     print('calculating grid of enclosed 3d masses...')

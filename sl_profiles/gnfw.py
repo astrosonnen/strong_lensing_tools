@@ -7,7 +7,7 @@ import ndinterp
 
 #calculates density profiles, projected mass densities, projected enclosed masses, 3d enclosed masses for generalized-NFW profiles.
 
-cwd = os.getcwd()
+thisdir = os.path.dirname(os.path.abspath(__file__))
 
 def rho(r, rs, beta):
     return 1./r**beta/(1. + r/rs)**(3.-beta) * rs**(beta-3.)
@@ -44,7 +44,7 @@ def lenspot(R, rs, beta, s_cr=1., R2rad=1.):
         out[i] = 2.*quad(lambda x: Sigma(x, rs, beta)*x*np.log(R/x), 0., R)[0]
     return out / s_cr * R2rad**2
 
-gridname = cwd+'/gNFW_grids.hdf5'
+gridname = thisdir+'/gNFW_grids.hdf5'
 
 # grid interpolation parameters
 bgrid_min = 0.2

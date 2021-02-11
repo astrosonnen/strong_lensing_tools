@@ -7,7 +7,7 @@ from scipy.interpolate import splrep
 
 # calculates density profiles, projected mass densities, projected enclosed masses, 3d enclosed masses for the Einasto profile.
 
-grid_dir = os.environ.get('BHWLDIR') + '/wl_profiles/'
+thisdir = os.path.dirname(os.path.abspath(__file__))
 
 def rho(r, r2, alpha):
     h = r2/(2./alpha)**(1/alpha)

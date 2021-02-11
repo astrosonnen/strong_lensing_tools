@@ -7,6 +7,8 @@ import ndinterp
 import h5py
 
 
+thisdir = os.path.dirname(os.path.abspath(__file__))
+
 def b(nser):
     return 2*nser - 1./3. + 4/405./nser + 46/25515/nser**2
 
@@ -33,7 +35,7 @@ nn = np.logspace(np.log10(ngrid_min), np.log10(ngrid_max), ngrid_n)
 
 axes = {0: splrep(rr, np.arange(rgrid_n)), 1: splrep(nn, np.arange(ngrid_n))}
 
-grid2dfilename = os.environ.get('BHWLDIR') + '/wl_profiles/sersic_m2d_grid.hdf5'
+grid2dfilename = thisdir + '/sersic_m2d_grid.hdf5'
 
 if not os.path.isfile(grid2dfilename):
     print('calculating grid of enclosed projected masses...')
@@ -86,7 +88,7 @@ def rho(r, nser, reff): # spherical deprojection
         out[i] = -1./np.pi*quad(lambda R: deriv(R)/(R**2 - rhere[i]**2)**0.5, rhere[i], np.inf)[0]
     return out
 
-grid3dfilename = os.environ.get('BHWLDIR') + '/wl_profiles/sersic_3dgrids.hdf5'
+grid3dfilename = thisdir + '/sersic_3dgrids.hdf5'
 
 if not os.path.isfile(grid3dfilename):
     print('calculating grid of enclosed 3d masses...')

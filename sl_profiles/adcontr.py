@@ -8,9 +8,11 @@ from scipy.optimize import brentq
 from scipy.integrate import quad
 
 
-grid_dir = os.environ.get('BHWLDIR') + '/wl_profiles/'
-m2d_gridname = grid_dir+'/adcontr_m2d_coarsendinterp.dat'
-sigma_gridname = grid_dir+'/adcontr_sigma_coarsendinterp.dat'
+# Adiabatic contraction/expansion model of Dutton
+
+thisdir = os.path.dirname(os.path.abspath(__file__))
+m2d_gridname = thisdir+'/adcontr_m2d_coarsendinterp.dat'
+sigma_gridname = thisdir+'/adcontr_sigma_coarsendinterp.dat'
 
 def get_light_m3d_spline(mstar, reff, nser, rmin=1e-4, rmax=1e4, nr=101):
 
