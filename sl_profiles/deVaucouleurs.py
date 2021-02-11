@@ -1,7 +1,7 @@
 import numpy as np
 from scipy.integrate import quad
 import os
-from scipy.special import gamma as gfunc
+from scipy.special import gamma, gammainc
 from scipy.interpolate import splrep, splev, splint
 import h5py
 
@@ -18,17 +18,13 @@ def b(n):
     return 2*n - 1./3. + 4/405./n + 46/25515/n**2
 
 def L(n, Re):
-    return Re**2*2*np.pi*n/b(n)**(2*n)*gfunc(2*n)
+    return Re**2*2*np.pi*n/b(n)**(2*n)*gamma(2*n)
 
 def Sigma(R, Re):
     return np.exp(-b(ndeV)*(R/Re)**(1./ndeV))/L(ndeV, Re)
 
 def M2d(R, Re):
-    R = np.atleast_1d(R)
-    out = 0.*R
-    for i in range(0, len(R)):
-        out[i] = 2*np.pi*quad(lambda r: r*Sigma(r, Re), 0., R[i])[0]
-    return out
+    return 2.*np.pi*Re**2*ndeV/b(ndeV)**(2.*ndeV)*gammainc(2*ndeV, b(ndeV)*(R/Re)**(1./ndeV))/L(ndeV, Re)*gamma(2.*ndeV)
 
 def lenspot(R, Re, s_cr=1., R2rad=1.):
     Rs = np.atleast_1d(R)
