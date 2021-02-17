@@ -1,7 +1,7 @@
 import numpy as np
-from wl_profiles import nfw, gnfw, deVaucouleurs as deV, eaglecontr
-from wl_cosmology import Mpc, c, G, M_Sun
-import wl_cosmology
+from sl_profiles import nfw, gnfw, deVaucouleurs as deV, eaglecontr
+from sl_cosmology import Mpc, c, G, M_Sun
+import sl_cosmology
 from scipy.optimize import brentq, minimize_scalar, leastsq
 from scipy.stats import truncnorm
 from scipy.interpolate import splrep, splev, splint, interp1d
@@ -80,13 +80,13 @@ xradcrit_samp = np.zeros(ngal)
 kpc = Mpc/1000.
 arcsec2rad = np.deg2rad(1./3600.)
 
-dd = wl_cosmology.Dang(zd)
-ds = wl_cosmology.Dang(zs)
-dds = wl_cosmology.Dang(zs, zd)
+dd = sl_cosmology.Dang(zd)
+ds = sl_cosmology.Dang(zs)
+dds = sl_cosmology.Dang(zs, zd)
 
 s_cr = c**2/(4.*np.pi*G)*ds/dds/dd/Mpc/M_Sun*kpc**2 # critical surface mass density, in M_Sun/kpc**2
 
-rhoc = wl_cosmology.rhoc(zd) # critical density of the Universe at z=zd. Halo masses are defined as M200 wrt rhoc.
+rhoc = sl_cosmology.rhoc(zd) # critical density of the Universe at z=zd. Halo masses are defined as M200 wrt rhoc.
 
 r200_samp = (10.**lm200_samp*3./200./(4.*np.pi)/rhoc)**(1./3.) * 1000.
 rs_samp = r200_samp/c200

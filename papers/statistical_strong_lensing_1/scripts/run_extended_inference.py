@@ -1,7 +1,4 @@
 import numpy as np
-from wl_profiles import gnfw, sersic
-from wl_cosmology import Mpc, c, G, M_Sun
-import wl_cosmology
 from scipy.interpolate import splrep, splev, splint
 from scipy.optimize import brentq
 from scipy.stats import truncnorm

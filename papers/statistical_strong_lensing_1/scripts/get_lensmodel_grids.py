@@ -210,7 +210,6 @@ for i in range(ngal):
     group.create_dataset('beta_max_grid', data=beta_max_grid)
     group.create_dataset('detJ_grid', data=detJ_grid)
     group.create_dataset('rmur_grid', data=rmur_grid)
-    group.create_dataset('xmin_grid', data=xmin_grid)
     group.create_dataset('grid_range', data=grid_range)
 
 grids_file.close()

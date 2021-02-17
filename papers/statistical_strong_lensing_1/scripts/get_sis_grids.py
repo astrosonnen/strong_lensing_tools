@@ -1,7 +1,7 @@
 import numpy as np
-from wl_profiles import gnfw, deVaucouleurs as deV
-from wl_cosmology import Mpc, c, G, M_Sun
-import wl_cosmology
+from sl_profiles import gnfw, deVaucouleurs as deV
+from sl_cosmology import Mpc, c, G, M_Sun
+import sl_cosmology
 from scipy.interpolate import splrep, splev, splint
 from scipy.optimize import brentq
 from scipy.stats import truncnorm
@@ -11,7 +11,7 @@ import h5py
 import sys
 
 
-mockname = sys.argv[1]
+mockname = 'contrmock_0'
 
 gridsdir = './'
 
@@ -31,17 +31,18 @@ lreff_samp = mockfile['lreff'][()]
 rein_true_samp = mockfile['rein'][()]
 xA_samp = mockfile['impos'][:, 0]
 xB_samp = mockfile['impos'][:, 1]
+imsep_samp = 0.5*(xA_samp - xB_samp)
 
 kpc = Mpc/1000.
 arcsec2rad = np.deg2rad(1./3600.)
 
-dd = wl_cosmology.Dang(zd)
-ds = wl_cosmology.Dang(zs)
-dds = wl_cosmology.Dang(zs, zd)
+dd = sl_cosmology.Dang(zd)
+ds = sl_cosmology.Dang(zs)
+dds = sl_cosmology.Dang(zs, zd)
 
 s_cr = c**2/(4.*np.pi*G)*ds/dds/dd/Mpc/M_Sun*kpc**2 # critical surface mass density, in M_Sun/kpc**2
 
-rhoc = wl_cosmology.rhoc(zd)
+rhoc = sl_cosmology.rhoc(zd)
 
 # defines lensing-related functions
 def alpha_dm(x, gnfw_norm, rs, gammadm):
@@ -50,7 +51,7 @@ def alpha_dm(x, gnfw_norm, rs, gammadm):
 
 def alpha_star(x, mstar, reff): 
     # deflection angle (in kpc)
-    return mstar * deV.fast_M2d(abs(x)/reff) / np.pi/x/s_cr
+    return mstar * deV.M2d(abs(x), reff) / np.pi/x/s_cr
 
 def alpha(x, gnfw_norm, rs, gammadm, mstar, reff):
     return alpha_dm(x, gnfw_norm, rs, gammadm) + alpha_star(x, mstar, reff)
@@ -96,7 +97,7 @@ for i in range(ngal):
 
     reff = 10.**lreff_samp[i]
 
-    rein = rein_true_samp[i]
+    rein = imsep_samp[i] # uses image half-separation as a proxy for the Einstein radius
 
     mstar_frac = deV.M2d(rein, reff)
 
