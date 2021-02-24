@@ -8,7 +8,12 @@ from sl_cosmology import Mpc, c, G, M_Sun
 import sl_cosmology
 from scipy.interpolate import splrep, splev, splint
 from scipy.optimize import brentq
+import pylab
+from matplotlib import rc
+rc('text', usetex=True)
 
+
+rcpix = 1./pylab.rcParams['figure.dpi'] # matplotlib pixel in inches
 
 npix = 121
 scale = 0.5
@@ -62,6 +67,9 @@ gammadm_0 = 1.4
 beta_0 = 3. # source position in lens-plane physical kpc
 
 gnfw_norm_0 = 10.**lmdm5_0/gnfw.M2d(5., rs, gammadm_0)
+
+r_arr = np.logspace(0., 2.)
+rho_stars_scalefree = deV.rho(r_arr, reff)
 
 # three lenses
 pars_0 = np.array([lmstar_0, lmdm5_0, gammadm_0]) # starting values
@@ -184,9 +192,18 @@ for n in range(nframes):
 
     im.putdata(pyplz_rgbtools.make_crazy_pil_format(data_here, std_cuts))
     #im.putdata(pyplz_rgbtools.make_crazy_pil_format(data_here, cuts_here))
-    #im = im.resize((2*npix, 2*npix), resample=Image.ANTIALIAS)
+    im = im.resize((2*npix, 2*npix), resample=Image.ANTIALIAS)
     im.save(figname)
     #fullim.paste(im, (2*n*npix, 0))
+
+    # now makes profile plot
+    fig = pylab.figure(figsize=(2*npix*rcpix, 2*npix*rcpix))
+    pylab.subplots_adjust(left=0.15, right=0.99, bottom=0.14, top=0.99)
+    ax = fig.add_subplot(1, 1, 1)
+
+    ax.loglog(r_arr, mstar_here*rho_stars_scalefree)
+    pylab.savefig('dof_plot_%02d.png'%n)
+    pylab.close()
 
 #fullim.save('figs/radmagrat_all.png')
 
