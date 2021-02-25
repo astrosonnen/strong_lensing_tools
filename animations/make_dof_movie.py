@@ -20,6 +20,7 @@ scale = 0.5
 pix = scale*0.168
 
 nframes = 30
+ylim = (1e6, 5e9)
 
 x0 = float(npix/2)
 y0 = float(npix/2)
@@ -63,7 +64,7 @@ lmstar_0 = 11.5
 reff = 7. # half-light radius in physical kpc
 lmdm5_0 = 11.
 rs = 100. # halo scale radius in kpc
-gammadm_0 = 1.4
+gammadm_0 = 1.
 beta_0 = 3. # source position in lens-plane physical kpc
 
 gnfw_norm_0 = 10.**lmdm5_0/gnfw.M2d(5., rs, gammadm_0)
@@ -71,7 +72,6 @@ gnfw_norm_0 = 10.**lmdm5_0/gnfw.M2d(5., rs, gammadm_0)
 r_arr = np.logspace(0., 2.)
 rho_stars_scalefree = deV.rho(r_arr, reff)
 
-# three lenses
 pars_0 = np.array([lmstar_0, lmdm5_0, gammadm_0]) # starting values
 
 pars_seq = np.tile(pars_0, (nframes, 1))
@@ -85,8 +85,8 @@ pars_seq[10:15, 1] = pars_0[1] + np.linspace(0., 0.4, 5)
 pars_seq[15:20, 1] = np.flipud(pars_0[1] + np.linspace(0., 0.4, 5))
 
 # then the dark matter slope
-pars_seq[20:25, 2] = pars_0[2] + np.linspace(0., 0.4, 5)
-pars_seq[25:, 2] = np.flipud(pars_0[2] + np.linspace(0., 0.4, 5))
+pars_seq[20:25, 2] = pars_0[2] + np.linspace(0., 0.8, 5)
+pars_seq[25:, 2] = np.flipud(pars_0[2] + np.linspace(0., 0.8, 5))
 
 # defines lensing-related functions
 def alpha_dm(x, gnfw_norm, rs, gammadm):
@@ -185,6 +185,7 @@ for n in range(nframes):
     figname = 'dof_frame_%02d.png'%n
 
     im = Image.new('RGB', (npix, npix), 'black')
+    fullim = Image.new('RGB', (4*npix, 2*npix), 'black')
 
     data_here = []
     for i in range(3):
@@ -193,17 +194,27 @@ for n in range(nframes):
     im.putdata(pyplz_rgbtools.make_crazy_pil_format(data_here, std_cuts))
     #im.putdata(pyplz_rgbtools.make_crazy_pil_format(data_here, cuts_here))
     im = im.resize((2*npix, 2*npix), resample=Image.ANTIALIAS)
-    im.save(figname)
-    #fullim.paste(im, (2*n*npix, 0))
+    #im.save(figname)
+    fullim.paste(im, (0, 0))
 
     # now makes profile plot
     fig = pylab.figure(figsize=(2*npix*rcpix, 2*npix*rcpix))
-    pylab.subplots_adjust(left=0.15, right=0.99, bottom=0.14, top=0.99)
+    pylab.subplots_adjust(left=0.21, right=0.99, bottom=0.16, top=0.99)
     ax = fig.add_subplot(1, 1, 1)
 
-    ax.loglog(r_arr, mstar_here*rho_stars_scalefree)
-    pylab.savefig('dof_plot_%02d.png'%n)
+    ax.loglog(r_arr, mstar_here*rho_stars_scalefree, label='Stars', color='r')
+    ax.loglog(r_arr, gnfw_norm_here*gnfw.rho(r_arr, rs, gammadm_here), label='Dark matter', color='b')
+    ax.set_ylim(ylim[0], ylim[1])
+    ax.set_ylabel('$\\rho(r)$ ($M_\odot$ kpc$^{-3}$')
+    ax.set_xlabel('$r$ (kpc)')
+    ax.legend(loc='upper right')
+    #pylab.savefig('dof_plot_%02d.png'%n)
+    pylab.savefig('tmp.png')
     pylab.close()
+
+    plotim = Image.open('tmp.png')
+    fullim.paste(plotim, (2*npix, 0))
+    fullim.save(figname)
 
 #fullim.save('figs/radmagrat_all.png')
 
