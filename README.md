@@ -15,3 +15,6 @@ Alessandro Sonnenfeld, Marius Cautun, Qing Zhou
 `papers/`: scripts and MCMC chains from the following papers:
 
 - Sonnenfeld & Cautun (2021), "Statistical strong lensing. I. Constraints on the inner structure of galaxies from samples of a thousand lenses"
+
+- Sonnenfeld (2021), "Statistical strong lensing. II. Cosmology and galaxy structure with time-delay lenses
+
