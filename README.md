@@ -16,5 +16,9 @@ Alessandro Sonnenfeld, Marius Cautun, Qing Zhou
 
 - Sonnenfeld & Cautun (2021), "Statistical strong lensing. I. Constraints on the inner structure of galaxies from samples of a thousand lenses"
 
-- Sonnenfeld (2021), "Statistical strong lensing. II. Cosmology and galaxy structure with time-delay lenses
+- Sonnenfeld (2021), "Statistical strong lensing. II. Cosmology and galaxy structure with time-delay lenses"
+
+- Sonnenfeld (2021), "Statistical strong lensing. III. Inferences with complete samples of lenses"
+
+- Sonnenfeld (2021), "Statistical strong lensing. IV. Inferences with no inidividual source redshifts"
 
