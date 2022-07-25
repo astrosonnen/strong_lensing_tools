@@ -31,6 +31,14 @@ def comovd(z1, z2=0., cosmo=default_cosmo): # comoving distance in Mpc
     I = quad(lambda z: 1./(cosmo['omegaL'] + cosmo['omegaM']*(1+z)**3 + cosmo['omegar']*(1+z)**4 + omegak*(1+z)**2)**0.5, z1, z2)
     return c/(H0*cosmo['h']*10.**5)*I[0]
 
+def dcomovdz(z, cosmo=default_cosmo): # derivative of the comoving distance wrt redshift
+    for par in default_cosmo:
+        if not par in cosmo:
+            cosmo[par] = default_cosmo[par]
+    omegak = 1. - cosmo['omegaM'] - cosmo['omegaL']
+
+    return c/(H0*cosmo['h']*10.**5)/(cosmo['omegaL'] + cosmo['omegaM']*(1+z)**3 + cosmo['omegar']*(1+z)**4 + omegak*(1+z)**2)**0.5
+
 def Dang(z1, z2=0., cosmo=default_cosmo):
     for par in default_cosmo:
         if not par in cosmo:
