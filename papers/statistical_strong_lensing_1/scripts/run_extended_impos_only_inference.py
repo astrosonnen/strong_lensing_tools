@@ -148,7 +148,7 @@ sampler = emcee.EnsembleSampler(nwalkers, npars, logpfunc, threads=50)
 
 start = []
 if len(sys.argv) > 2:
-    print 'using last step of %s to initialize walkers'%sys.argv[2]
+    print('using last step of %s to initialize walkers'%sys.argv[2])
     startfile = h5py.File('%s'%sys.argv[2], 'r')
 
     for i in range(nwalkers):
