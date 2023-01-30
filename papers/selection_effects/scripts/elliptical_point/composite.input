@@ -1,0 +1,59 @@
+omega 0.3
+lambda 0.7
+weos -1.
+hubble 0.7
+prefix composite
+xmin -3.
+xmax 3.
+ymin -3.
+ymax 3.
+pix_poi 0.1
+pix_ext 0.1
+maxlev 5
+nfw_users 1
+flag_hodensity 2
+hodensity 200.
+
+startup 2 0 0
+lens gnfw 0.300000 2.021e12 0. 0. 0. 90.000000 10. 1.5
+lens sers 0.300000 1.087e11 0. 0. 0. 90.000000 1. 4.
+end_startup
+
+start_command
+reset_par prefix composite_e0.0
+reset_lens 1 5 0.
+reset_lens 2 5 0.
+writecrit 1.5
+#mock1 100000 1.5 -1. 1. -1. 1.
+
+reset_par prefix composite_e0.1
+reset_lens 1 5 0.1
+reset_lens 2 5 0.1
+writecrit 1.5
+#mock1 100000 1.5 -1. 1. -1. 1.
+
+reset_par prefix composite_e0.2
+reset_lens 1 5 0.2
+reset_lens 2 5 0.2
+writecrit 1.5
+#mock1 100000 1.5 -1. 1. -1. 1.
+
+reset_par prefix composite_e0.3
+reset_lens 1 5 0.3
+reset_lens 2 5 0.3
+writecrit 1.5
+#mock1 100000 1.5 -1. 1. -1. 1.
+
+reset_par prefix composite_e0.4
+reset_lens 1 5 0.4
+reset_lens 2 5 0.4
+writecrit 1.5
+#mock1 100000 1.5 -1. 1. -1. 1.
+
+reset_par prefix composite_e0.5
+reset_lens 1 5 0.5
+reset_lens 2 5 0.5
+writecrit 1.5
+#mock1 100000 1.5 -1. 1. -1. 1.
+
+quit

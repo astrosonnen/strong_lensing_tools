@@ -1,0 +1,24 @@
+omega 0.3
+lambda 0.7
+weos -1.
+hubble 0.7
+prefix base
+xmin -2.
+xmax 2.
+ymin -2.
+ymax 2.
+pix_poi 0.01
+pix_ext 0.05
+maxlev 5
+nfw_users 1
+flag_hodensity 2
+hodensity 200.
+
+startup 2 1 0
+lens gnfw 0.300000 2.021e12 0. 0. 0.3 90.000000 10. 1.5
+lens sers 0.300000 1.087e11 0. 0. 0.3 90.000000 1. 4.
+extend sersic 1.5 1. 0. 0. 0. 0. 0.1 1.
+end_startup
+
+start_command
+
