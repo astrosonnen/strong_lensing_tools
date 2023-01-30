@@ -30,5 +30,19 @@ In the case of the fiducial scatter simulation we also produced a simulation of 
 | tein_zs | Einstein radius at the source redshift (arcsec, only for lenses) |
 | tein_zqso | Einstein radius at the qso redshift (arcsec, only for quasar lenses) |
 
+`XXX_lenses.hdf5`: file containing information on the properties of the lenses. It includes all of the quantities from the `galaxies` file, plus the following
 
+| Dataset | Description |
+| ------- | ----------- |
+| index   | Index in the `galaxies` file corresponding to this lens |
+| nmax | Number of detected source surface brightness peaks |
+| nimg | Number of regions in the 2sigma footprint |
+| nser | Source S\'ersic index |
+| smag | Source unlensed i-band magnitude |
+| sreff | Source half-light radius (arcsec) |
+| sq | Source axis ratio |
+| spa | Source position angle |
+| zs | Source redshift |
+| xpos | Source centroid x-axis position with respect to lens centre (arcsec) |
+| ypos | Source centroid y-axis position with respect to lens centre (arcsec) |
 
