@@ -82,3 +82,6 @@ def uniage(z, cosmo=default_cosmo):
     I = quad(lambda z: 1./(1.+z)/(cosmo['omegaL'] + cosmo['omegaM']*(1+z)**3 + cosmo['omegar']*(1+z)**4 + omegak*(1+z)**2)**0.5, z, np.inf)
     return I[0]/(H0*cosmo['h']*10.**5*yr/Mpc)
 
+def arcsec2kpc(z, cosmo=default_cosmo):
+    return np.deg2rad(1./3600.) * Dang(z, cosmo=cosmo) * 1000.
+
