@@ -14,6 +14,7 @@ yr = 365.*3600.*24.
 default_cosmo = {'omegaM': omegaM, 'omegaL': omegaL, 'omegar': omegar, 'h': h}
 
 Mpc = 3.08568025e24
+kpc = Mpc/1000.
 c = 2.99792458e10
 G = 6.67300e-8
 f_bar = 4.825 / 30.7 # baryon fraction
@@ -84,4 +85,12 @@ def uniage(z, cosmo=default_cosmo):
 
 def arcsec2kpc(z, cosmo=default_cosmo):
     return np.deg2rad(1./3600.) * Dang(z, cosmo=cosmo) * 1000.
+
+def Sigma_cr(z1, z2, cosmo=default_cosmo):
+    # Critical surface mass density in M_Sun/kpc^2
+    dd = Dang(z1)
+    ds = Dang(z2)
+    dds = Dang(z1, z2)
+    
+    return c**2/(4.*np.pi*G)*ds/dds/dd/Mpc/M_Sun*kpc**2
 
