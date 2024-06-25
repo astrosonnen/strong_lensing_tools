@@ -9,4 +9,5 @@
 - The lensing cross-section for the fiducial reference source
 - The lensing cross-section for a reference source with intrinsic emission line flux equal to half of the detection limit.
 
+`make_slacs_jeans_grids.py`: on a grid of values of the total density slope (gamma), it integrates the spherical Jeans equation to obtain the model-predicted velocity dispersion within the SDSS spectroscopic aperture. It requires [this](https://github.com/astrosonnen/spherical_jeans) spherical Jeans code to run.
 
