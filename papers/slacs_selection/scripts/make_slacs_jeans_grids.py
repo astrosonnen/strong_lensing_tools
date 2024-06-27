@@ -18,7 +18,7 @@ f.close()
 nslacs = len(names)
 
 f = open('../SLACS_table.cat', 'r')
-slacs_zd, slacs_zs, slacs_reff, slacs_rein = np.loadtxt(f, usecols=(3, 4, 7, 8), unpack=True)
+slacs_zd, slacs_zs, slacs_reff, slacs_rein = np.loadtxt(f, usecols=(3, 4, 6, 8), unpack=True)
 f.close()
 
 nr = 1001
@@ -32,6 +32,8 @@ sigma_grid_file = h5py.File('slacs_jeans_grids.hdf5', 'w')
 sigma_grid_file.create_dataset('gamma_grid', data=gamma_grid)
 
 for n in range(nslacs):
+
+    print('%d %s'%(n, names[n]))
 
     group = sigma_grid_file.create_group(names[n])
 

@@ -5,6 +5,7 @@ from scipy.integrate import quad
 from sl_profiles import powerlaw
 from sl_cosmology import Sigma_cr
 from parent_sample_pars import *
+from fitpars import *
 import h5py
 
 
