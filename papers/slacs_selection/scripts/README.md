@@ -27,3 +27,5 @@
 
 `fit_full.py`: fits the full model to the data.
 
+`draw_pp_samples.py`: draws posterior predicted samples from the model.
+

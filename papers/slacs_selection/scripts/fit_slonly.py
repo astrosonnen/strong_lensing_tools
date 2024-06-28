@@ -12,7 +12,7 @@ from scipy.special import erf
 import sys
 
 
-nstep = 300
+nstep = 2000
 nwalkers = 100
 nis = 1000
 
