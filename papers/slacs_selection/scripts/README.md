@@ -58,3 +58,5 @@ The final output will be a chain of samples from the posterior, stored in a file
 
 `draw_pp_samples.py`: draws posterior predicted samples from the model.
 
+`draw_nopfind_pp_samples.py`: draws posterior predicted samples from the model, ignoring the lens finding probability term.
+
