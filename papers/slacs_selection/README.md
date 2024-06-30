@@ -1,8 +1,8 @@
 # The SLACS strong lens sample, debiased
 
-## Authors
+## Author
 
-Alessandro Sonnenfeld, 
+Alessandro Sonnenfeld
 
 ## Contents
 
