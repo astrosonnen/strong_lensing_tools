@@ -10,7 +10,11 @@ The sets of scripts collected in this folder can be used to carry out the follow
 
 ## Usage
 
-**Requirements**: add the present repository and [this](https://github.com/astrosonnen/spherical_jeans) spherical Jeans code to run to the `PYTHONPATH`; `emcee`; `h5py`.
+**Requirements**: 
+- Strong lensing tools (i.e. this repository): add to the `PYTHONPATH`
+- [this](https://github.com/astrosonnen/spherical_jeans) spherical Jeans code: add to the `PYTHONPATH`.
+- `emcee`.
+- `h5py`.
 
 ### Fitting the full model
 
