@@ -43,12 +43,12 @@ The file `slonly_inference.hdf5` is similarly structured.
 
 The file `full_pp.hdf5` contains posterior predicted samples of properties of parent sample galaxies and strong lenses. It contains 1000 draws from the posterior. The data are organised in groups, as follows:
 
-`hyperpars`: values of the model parameters.
-`subset`: properties of a random sample of 100 galaxies (different seed for each sample).
-`lenses`: properties of a sample of 59 lenses.
-`pop_sigma_bin`: average properties of parent sample galaxies, in bins of velocity dispersion. Bin edges are defined in `sigma_bins`.
-`pop_ms_bin`: average properties of parent sample galaxies, in bins of log-stellar mass. Bin edges are defined in `ms_bins`.
-`lens_sigma_bin`: average properties of parent sample galaxies, in bins of velocity dispersion.
-`lens_ms_bin`: average properties of parent sample galaxies, in bins of log-stellar mass.
+- `hyperpars`: values of the model parameters.
+- `subset`: properties of a random sample of 100 galaxies (different seed for each sample).
+- `lenses`: properties of a sample of 59 lenses.
+- `pop_sigma_bin`: average properties of parent sample galaxies, in bins of velocity dispersion. Bin edges are defined in `sigma_bins`.
+- `pop_ms_bin`: average properties of parent sample galaxies, in bins of log-stellar mass. Bin edges are defined in `ms_bins`.
+- `lens_sigma_bin`: average properties of parent sample galaxies, in bins of velocity dispersion.
+- `lens_ms_bin`: average properties of parent sample galaxies, in bins of log-stellar mass.
 
 The file `full_nopfind_pp.hdf5` is similarly structured.
