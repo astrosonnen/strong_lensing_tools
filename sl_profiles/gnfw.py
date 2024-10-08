@@ -3,6 +3,7 @@ from scipy.integrate import quad
 import h5py
 import os
 from scipy.interpolate import splrep
+from scipy.special import hyp2f1
 import ndinterp
 
 #calculates density profiles, projected mass densities, projected enclosed masses, 3d enclosed masses for generalized-NFW profiles.
@@ -30,11 +31,7 @@ def M2d(R, rs, beta):
     return out
 
 def M3d(r, rs, beta):
-    r = np.atleast_1d(r)
-    out = 0.*r
-    for i in range(0, len(r)):
-        out[i] = 4*np.pi*quad(lambda x: rho(x, rs, beta)*x**2, 0., r[i])[0]
-    return out
+    return 4.*np.pi * (r/rs)**(3.-beta) / (3. - beta) * hyp2f1(3.-beta, 3.-beta, 4.-beta, -r/rs)
 
 def lenspot(R, rs, beta, s_cr=1., R2rad=1.):
     Rs = np.atleast_1d(R)

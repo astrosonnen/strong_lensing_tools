@@ -114,7 +114,7 @@ def fast_M3d(x): # 3d mass enclosed within radius x=r/reff, normalized to unit t
     oob_up = xarr > rgrid_max
     oob_dw = xarr < rgrid_min
     oarr[oob_up] = 1.
-    oarr[oob_dw] = 0.
+    oarr[oob_dw] = M3d_grid[0]
 
     return oarr
 
@@ -126,7 +126,7 @@ def fast_rho(R, Re):
     oob_up = xarr > rgrid_max
     oob_dw = xarr < rgrid_min
     oarr[oob_up] = 0.
-    oarr[oob_dw] = 0.
+    oarr[oob_dw] = rho_grid[0]
 
     return oarr
 
