@@ -10,7 +10,7 @@ Alessandro Sonnenfeld
 `parent_sample.fits`: .fits file with data of the parent sample.
 `inference.hdf5`: chain of samples from the posterior probability distribution of the full model.
 `slonly_inference.hdf5`: chain of samples from the posterior probability distribution of the lens-only model, with **no** selection function correction.
-`pp_samples.hdf5`: posterior predicted samples from the full model.
+`short_pp_samples.hdf5`: posterior predicted samples from the full model. `short` means that only 1000 samples are provided, but longer chains can be generated with the scripts provided.
 
 `scripts/`: The Python scripts used for the experiments carried out in the paper.
 
@@ -42,7 +42,7 @@ The file `slonly_inference.hdf5` is similarly structured.
 
 ### Posterior predicted samples
 
-The file `pp_samples.hdf5` contains posterior predicted samples of properties of parent sample galaxies and strong lenses. It contains 10000 draws from the posterior. The data are organised in groups, as follows:
+The file `short_pp_samples.hdf5` contains posterior predicted samples of properties of parent sample galaxies and strong lenses. It contains 1000 draws from the posterior. The data are organised in groups, as follows:
 
 - `hyperpars`: values of the model parameters.
 - `subset`: properties of a random sample of 100 galaxies (different seed for each sample).
