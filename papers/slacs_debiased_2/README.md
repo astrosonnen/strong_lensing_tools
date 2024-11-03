@@ -1,4 +1,4 @@
-# SLACS debiased, II. Lensing-only constraints on the stellar IMF and dark matter contraction in early-type galaxies
+# The SLACS strong lens sample debiased. II. Lensing-only constraints on the stellar IMF and dark matter contraction in early-type galaxies
 
 ## Author
 
