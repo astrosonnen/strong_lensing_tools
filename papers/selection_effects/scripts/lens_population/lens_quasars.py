@@ -20,6 +20,7 @@ pop = h5py.File('%s_galaxies.hdf5'%modelname, 'r+')
 nsamp = pop.attrs['nsamp']
 islens_samp = np.zeros(nsamp, dtype=bool)
 tein_zs_samp = np.zeros(nsamp)
+rein_zs_samp = np.zeros(nsamp)
 
 # reads the number of sources
 f = open('%s_sources.cat'%modelname, 'r')
@@ -70,6 +71,12 @@ ypos_list = []
 qsomag_list = []
 nimg_list = []
 tein_zs_list = []
+rein_zs_list = []
+psi2_list = []
+psi3_list = []
+lmst_list = []
+
+dx = 0.1 # infinitesimal for finite-difference derivative computation (in kpc)
 
 # defines lensing-related functions (for computation of Einstein radius)
 def alpha_dm(x, gnfw_norm, rs, gammadm, s_cr):
@@ -144,8 +151,11 @@ for i in range(nsamp):
                 s_cr = c**2/(4.*np.pi*G)*ds/dds/dd/Mpc/M_Sun*kpc**2
                 arcsec2kpc = np.deg2rad(1./3600.) * dd * 1000.
 
+                def alpha_here(x):
+                    return alpha(x, pop['gnfw_norm'][i], pop['rs'][i], pop['gammadm'][i], 10.**pop['lmstar'][i], 10.**pop['lreff'][i], s_cr)
+
                 def zerofunc(x):
-                    return x - alpha(x, pop['gnfw_norm'][i], pop['rs'][i], pop['gammadm'][i], 10.**pop['lmstar'][i], 10.**pop['lreff'][i], s_cr)
+                    return x - alpha_here(x)
 
                 xmin = max(deV.rgrid_min*10.**pop['lreff'][i], gnfw.R_grid[0]*pop['rs'][i])
                 if zerofunc(xmin) > 0.:
@@ -153,10 +163,25 @@ for i in range(nsamp):
                 else:
                     rein_zs = brentq(zerofunc, xmin, 100.)
 
+                rein_zs_samp[i] = rein_zs
+                rein_zs_list.append(rein_zs)
+
                 tein_zs = rein_zs/arcsec2kpc
                 tein_zs_samp[i] = tein_zs
 
                 tein_zs_list.append(tein_zs)
+
+                # computes local derivatives of lens potential at Einstein radius
+                psi2_here = (alpha_here(rein_zs + dx) - alpha_here(rein_zs - dx))/(2.*dx)
+                # psi3 has units of 1/kpc
+                psi3_here = (alpha_here(rein_zs + dx) + alpha_here(rein_zs - dx) - 2.*alpha_here(rein_zs))/dx**2
+
+                psi2_pl_here = -psi3_here/(1. - psi2_here) * rein_zs
+                lmst_here = (1. - psi2_pl_here)/(1. - psi2_here)
+
+                psi2_list.append(psi2_here)
+                psi3_list.append(psi3_here)
+                lmst_list.append(lmst_here)
 
                 print('%d is a lens'%i)
 
@@ -184,6 +209,13 @@ if 'tein_zqso' in pop:
 else:
     pop.create_dataset('tein_zqso', data=tein_zs_samp)
 
+if 'rein_zqso' in pop:
+    data = pop['rein_zqso']
+    data[()] = rein_zs_samp
+
+else:
+    pop.create_dataset('rein_zqso', data=rein_zs_samp)
+
 # makes file with lenses
 
 lens_file = h5py.File('%s_qsolenses.hdf5'%modelname, 'w')
@@ -199,6 +231,10 @@ lens_file.create_dataset('r200', data=pop['r200'][islens_samp])
 lens_file.create_dataset('lreff', data=pop['lreff'][islens_samp])
 lens_file.create_dataset('tein_zref', data=pop['tein'][islens_samp])
 lens_file.create_dataset('tein_zs', data=np.array(tein_zs_list))
+lens_file.create_dataset('rein_zs', data=np.array(rein_zs_list))
+lens_file.create_dataset('psi2', data=np.array(psi2_list))
+lens_file.create_dataset('psi3', data=np.array(psi3_list))
+lens_file.create_dataset('lmst', data=np.array(lmst_list))
 lens_file.create_dataset('tcaust', data=pop['tcaust'][islens_samp])
 lens_file.create_dataset('q', data=pop['q'][islens_samp])
 lens_file.create_dataset('rs', data=pop['rs'][islens_samp])
