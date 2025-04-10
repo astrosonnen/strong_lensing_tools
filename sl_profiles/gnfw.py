@@ -48,7 +48,7 @@ bgrid_min = 0.2
 bgrid_max = 2.8
 Nb = 27
 
-Rgrid_min = 0.001
+Rgrid_min = 0.0001
 Rgrid_max = 100.
 Nr = 100
 
