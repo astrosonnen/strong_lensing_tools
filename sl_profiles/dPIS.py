@@ -1,7 +1,7 @@
 # scripts to calculate lensing-related quantities for a dual Pseudo Isothermal Spherical mass distribution
 
 import numpy as np
-from sl_cosmology import G, M_Sun, Mpc
+from sl_cosmology import G, M_Sun, Mpc, Sigma_cr
 
 
 # rc = core radius; rt = truncation radius
@@ -33,4 +33,7 @@ def Mtot_from_sigma_v(sigma_v, rt):
     # input: sigma_v in km/s, rt in kpc
     # returns: Mtot in Solar masses
     return (sigma_v * 1e5)**2/G * np.pi * rt * Mpc / 1000. / M_Sun
+
+def sigma_v_from_M5(M5, rt):
+    return (M5 * G * M_Sun / np.pi / (Mpc / 1000.) / (5. - rt * ((1. + (5./rt)**2)**0.5 - 1.)))**0.5 / 1e5
 
